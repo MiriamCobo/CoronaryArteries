@@ -24,6 +24,10 @@ import albumentations
 from albumentations.augmentations import transforms
 from albumentations.imgaug import transforms as imgaug_transforms
 
+import skimage
+import copy
+import skimage.segmentation
+
 
 def load_data_splits(splits_dir, im_dir, split_name='train'):
     """
@@ -552,6 +556,68 @@ class k_crop_data_sequence(Sequence):
 
         batch_X = preprocess_batch(batch=batch_X, mean_RGB=self.mean_RGB, std_RGB=self.std_RGB, mode=self.preprocess_mode)
         return batch_X
+    
+class k_crop_data_sequence_lime(Sequence):
+    """
+    Data sequence generator for test time to feed to predict_generator with LIME perturbed images.
+    Each batch delivered is composed by multiple perturbed images (default=150) of the same image.
+    """
+
+    def __init__(self, inputs, mean_RGB, std_RGB, preprocess_mode,
+                 filemode='local', im_size=224, num_perturb=150):
+        """
+        Parameters are the same as in the data_generator function except for:
+
+        Parameters
+        ----------
+        num_perturb : int
+            Number of perturbed images created from the original one.
+            The larger this numer the more reliable explanations that will be produced.
+        mode :str, {'random', 'standard'}
+            If 'random' data augmentation is performed randomly.
+            If 'standard' we take the standard 10 crops (corners +center + mirrors)
+        filemode : {'local','url'}
+            - 'local': filename is absolute path in local disk.
+            - 'url': filename is internet url.
+        """
+        self.inputs = inputs
+        self.mean_RGB = mean_RGB
+        self.std_RGB = std_RGB
+        self.preprocess_mode = preprocess_mode
+        self.filemode = filemode
+        self.im_size = im_size
+        self.num_perturb = num_perturb
+
+    def __len__(self):
+        return len(self.inputs)
+
+    def __getitem__(self, idx):
+        batch_X = []
+        im = load_image(self.inputs[idx], filemode=self.filemode)
+        superpixels = skimage.segmentation.quickshift(im, kernel_size=4, max_dist=200, ratio=0.2)
+        num_superpixels = np.unique(superpixels).shape[0]
+        perturbations = np.random.binomial(1, 0.5, size=(self.num_perturb, num_superpixels))
+        for pert in perturbations:
+            perturbed_img=perturb_image(image,pert,superpixels)
+            perturbed_img = resize_im(perturbed_img, height=self.im_size, width=self.im_size)
+            batch_X.append(perturbed_img)  # shape (N, 224, 224, 3)
+
+        batch_X = preprocess_batch(batch=batch_X, mean_RGB=self.mean_RGB, std_RGB=self.std_RGB, mode=self.preprocess_mode)
+        return batch_X
+
+    
+    
+def perturb_image(img,perturbation,segments):
+    """
+    Create a perturbed image.
+    """
+    active_pixels = np.where(perturbation == 1)[0]
+    mask = np.zeros(segments.shape)
+    for active in active_pixels:
+        mask[segments == active] = 1 
+    perturbed_image = copy.deepcopy(img)
+    perturbed_image = perturbed_image*mask[:,:,np.newaxis]
+    return perturbed_image
 
 
 def im_stats(filename):
