@@ -1,4 +1,4 @@
-# external requirements
+# external requirements (better if everything is set to ==)
 Sphinx
 python-dotenv>=0.5.1
 numpy>=1.14.5
