@@ -48,7 +48,7 @@ model:
             "NASNetLarge" has been disabled as a choice as it gave compilation errors.
 
   image_size:
-    value: 224
+    value: 528
     type: "int"
     range: [32, 1000]
     help: >
