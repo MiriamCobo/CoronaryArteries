@@ -9,6 +9,8 @@ DEEP Open Catalogue: Image classification
 **Project:** This work is part of the [DEEP Hybrid-DataCloud](https://deep-hybrid-datacloud.eu/) project that has
 received funding from the European Union’s Horizon 2020 research and innovation programme under grant agreement No 777435.
 
+This of cornonarias.
+
 This is a plug-and-play tool to train and evaluate an image classifier on a custom dataset using deep neural networks.
 
 You can find more information about it in the [DEEP Marketplace](https://marketplace.deep-hybrid-datacloud.eu/modules/deep-oc-image-classification-tf.html).
