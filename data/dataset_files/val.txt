@@ -1,7 +1,7 @@
-/srv/datos/GrupoA_Revision_BC/9575/9575_spider_n.jpg 0
-/srv/datos/Tortuosos/8422/8422_SPIDER_s.jpg 1
-/srv/datos/Tortuosos/10125/10125_SPIDER_s.jpg 1
-/srv/datos/GrupoA_Revision_BC/7413/7413_spider_n.jpg 0
-/srv/datos/Tortuosos/1663/1663_spider_s.jpg 1
-/srv/datos/GrupoA_Revision_BC/10955/10955_spider_n.jpg 0
-/srv/datos/GrupoA_Revision_BC/11159/11159_spider_n.jpg 0
+/srv/datos/GrupoA_Revision_BC/9575/9575_45_n.jpg 0
+/srv/datos/Tortuosos/8422/8422_45_s.jpg 1
+/srv/datos/Tortuosos/10125/10125_45_s.jpg 1
+/srv/datos/GrupoA_Revision_BC/7413/7413_45_n.jpg 0
+/srv/datos/Tortuosos/1663/1663_45_s.jpg 1
+/srv/datos/GrupoA_Revision_BC/10955/10955_45_n.jpg 0
+/srv/datos/GrupoA_Revision_BC/11159/11159_45_n.jpg 0
