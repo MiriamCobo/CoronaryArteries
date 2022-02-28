@@ -454,7 +454,7 @@ def standard_tencrop_batch(im, crop_prop=0.95):
     Parameters
     ----------
     im : numpy array, type np.uint8
-    crop_prop: float, [0, 1]
+    crop_prop: float, [0, 1] (originally was set to 0.95)
         Size of the crop with respect to the whole image
 
     Returns
@@ -502,6 +502,28 @@ def standard_tencrop_batch(im, crop_prop=0.95):
 
     return batch
 
+def mirror_batch(im, crop_prop=1):
+    """
+    Returns a two of images from an original image (the original + its mirror).
+
+    Parameters
+    ----------
+    im : numpy array, type np.uint8
+    crop_prop: float, [0, 1]
+        Size of the crop with respect to the whole image
+
+    Returns
+    -------
+    List of 2 numpy arrays
+    """
+    batch = []
+    # Save original and its mirror
+    lr_aug = albumentations.HorizontalFlip(p=1)
+    batch.append(im)
+    batch.append(lr_aug(image=im)['image'])
+
+    return batch
+
 
 class k_crop_data_sequence(Sequence):
     """
@@ -509,7 +531,7 @@ class k_crop_data_sequence(Sequence):
     Each batch delivered is composed by multiple crops (default=10) of the same image.
     """
 
-    def __init__(self, inputs, mean_RGB, std_RGB, preprocess_mode, aug_params, crop_number=30, crop_mode='random',
+    def __init__(self, inputs, mean_RGB, std_RGB, preprocess_mode, aug_params, crop_number=30, crop_mode='mirror',
                  filemode='local', im_size=224):
         """
         Parameters are the same as in the data_generator function except for:
@@ -518,9 +540,10 @@ class k_crop_data_sequence(Sequence):
         ----------
         crop_number : int
             Number of crops of each image to take.
-        mode :str, {'random', 'standard'}
+        mode :str, {'random', 'standard', 'mirror'}
             If 'random' data augmentation is performed randomly.
             If 'standard' we take the standard 10 crops (corners +center + mirrors)
+            If 'mirror' we take the orginal + mirror images
         filemode : {'local','url'}
             - 'local': filename is absolute path in local disk.
             - 'url': filename is internet url.
@@ -553,6 +576,9 @@ class k_crop_data_sequence(Sequence):
 
         if self.crop_mode == 'standard':
             batch_X = standard_tencrop_batch(im)
+            
+        if self.crop_mode == 'mirror':
+            batch_X = mirror_batch(im)
 
         batch_X = preprocess_batch(batch=batch_X, mean_RGB=self.mean_RGB, std_RGB=self.std_RGB, mode=self.preprocess_mode)
         return batch_X
