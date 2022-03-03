@@ -129,7 +129,7 @@ training:
           Number of epochs to use for training.
 
   ckpt_freq:
-    value:
+    value: 0.2
     type: "float"
     range: [0, 1]
     help: >
