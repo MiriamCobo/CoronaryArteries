@@ -114,7 +114,7 @@ training:
           Initial learning rate.
 
   batch_size:
-    value: 2
+    value: 4
     type: "int"
     range: [1, 64]
     help: >
