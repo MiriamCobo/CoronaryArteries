@@ -148,7 +148,7 @@ def get_callbacks(CONF, use_lr_decay=True):
         calls.append(callbacks.RemoteMonitor())
 
     if CONF['training']['use_validation'] and CONF['training']['use_early_stopping']:
-        calls.append(callbacks.EarlyStopping(patience=int(0.1 * CONF['training']['epochs'])))
+        calls.append(callbacks.EarlyStopping(patience=int(0.2 * CONF['training']['epochs'])))
 
     if CONF['training']['ckpt_freq'] is not None:
         calls.append(callbacks.ModelCheckpoint(
