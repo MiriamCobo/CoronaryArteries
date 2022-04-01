@@ -114,7 +114,7 @@ training:
           Initial learning rate.
 
   batch_size:
-    value: 4
+    value: 8
     type: "int"
     range: [1, 64]
     help: >
@@ -178,13 +178,13 @@ training:
           Whether to use or not validation. If True you have to provide a `val.txt` file in the `splits` directory.
 
   use_early_stopping:
-    value: False
+    value: True
     type: "bool"
     help: >
           Whether to use or not early stopping. If True you have to provide a `val.txt` file in the `splits` directory.
 
   use_multiprocessing:
-    value: True
+    value: False
     type: "bool"
     help: >
           Whether to use or not multiple workers to do preprocess data (ie. do data augmentation)
