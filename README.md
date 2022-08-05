@@ -2,8 +2,6 @@ Artificial intelligence to detect coronary artery tortuosity through
 coronary angiography
 =========================================
 
-[![Build Status](https://jenkins.indigo-datacloud.eu/buildStatus/icon?job=Pipeline-as-code/DEEP-OC-org/image-classification-tf/master)](https://jenkins.indigo-datacloud.eu/job/Pipeline-as-code/job/DEEP-OC-org/job/image-classification-tf/job/master/)
-
 **Author:** [Miriam Cobo](https://github.com/MiriamCobo) (CSIC)
 
 **Description:** This work provides a tool to detect coronary artery tortuosity in coronary angiography.
